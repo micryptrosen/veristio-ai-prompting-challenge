@@ -1,6 +1,16 @@
 # AI Prompting Challenge
 
-A dependency-free local browser prototype for Build With AI Hackathon #2.
+A dependency-free local Veristio prototype, preserved beyond its original hackathon effort.
+
+## Accepted Usefulness Update - 2026-10-01
+
+Baseline checklist signals are labelled separately from changed revision input. Blank, whitespace or unchanged baseline input stays awaiting revision; edits clear stale scores. Stronger examples remain separate and copy uses revision input only.
+
+The product owner accepted this bounded repair in the governed product home. It is now prepared in this local publication mirror; this preparation does not claim the new commit has been pushed. Owner acceptance is not production or customer validation.
+
+Checklist matches are heuristic signals, not proof of authorship, semantic improvement or model performance. Book 19 remains reference-only; this prototype is not admitted book content or curriculum.
+
+The demo below records the older prototype, before this repair. No video was rerecorded or uploaded for this update, and playback was not freshly checked. Devpost submission was abandoned due to owner-assessed qualification risk; no submission occurred.
 
 ## Features
 

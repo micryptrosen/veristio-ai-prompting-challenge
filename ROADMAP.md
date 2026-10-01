@@ -1,23 +1,18 @@
 # Roadmap
 
-## Current Phase
+## Current Product Update - 2026-10-01
 
-First local static prototype implemented.
+Preserved non-hackathon Veristio prototype. The owner accepted this bounded repair in the governed product home; it is now prepared locally in the publication mirror:
 
-## Next Lawful Build Operation
+Baseline checklist signals are labelled separately from changed revision input. Blank, whitespace or unchanged baseline input stays awaiting revision; edits clear stale scores. Stronger examples remain separate and copy uses revision input only.
 
-Run local QA, refine challenge copy, and prepare for a later public-readiness audit.
+This local commit is not a claim of public push, new demo recording, customer validation or production readiness. Existing demo and MIT license remain preserved. Devpost submission route is abandoned/held/not performed due to owner-assessed qualification risk.
 
-## Next Improvements
+## Next Actions
 
-- Add more sample prompts per mode.
-- Add clearer explanation for why each checklist item matters.
-- Add local-only export of the user's before/after prompt if owner approves persistence or download behavior.
-- Improve keyboard and screen-reader QA after manual browser testing.
-- Add public-readiness checklist before any remote or Devpost action.
+Review the local mirror diff and its verification evidence before any separately approved push. Subsequent product changes require a new bounded scope and owner approval; no speculative features are implemented or authorized here.
 
-## Later Gates
+## Boundaries
 
-- Run local checks.
-- Recheck Devpost rules before external action.
-- Request owner approval before any push, publication, demo upload, or submission.
+Checklist matches are heuristic signals, not proof of authorship, semantic improvement or model performance. Book 19 remains reference-only; this prototype is not admitted book content or curriculum.
+No backend, persistence, accounts, analytics, external AI integration, automatic publication or deployment is introduced. Keep private governance/evidence and source-reference content out of this mirror.

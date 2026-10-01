@@ -62,6 +62,8 @@ const checklistOutput = document.querySelector("#checklist-output");
 const feedbackOutput = document.querySelector("#feedback-output");
 const strongerOutput = document.querySelector("#stronger-output");
 const scoreOutput = document.querySelector("#score-output");
+const scoreLabel = document.querySelector("#score-label");
+const analysisSource = document.querySelector("#analysis-source");
 const statusOutput = document.querySelector("#challenge-status");
 const loadSampleButton = document.querySelector("#load-sample");
 const analyzeButton = document.querySelector("#analyze-prompt");
@@ -125,14 +127,24 @@ function buildFeedback(signals) {
 }
 
 function analyzePrompt() {
-  const text = improvedPrompt.value || weakPrompt.value;
+  const revision = improvedPrompt.value.trim();
+  const baseline = weakPrompt.value.trim();
+  const hasRevision = Boolean(revision) && normalize(revision) !== normalize(baseline);
+  const text = hasRevision ? revision : baseline;
   const signals = detectSignals(text);
   const score = Object.values(signals).filter(Boolean).length;
 
   renderChecklist(signals);
-  scoreOutput.textContent = `${score} / ${checklistItems.length}`;
-  feedbackOutput.textContent = buildFeedback(signals);
-  statusOutput.textContent = score >= 5 ? "Good revision" : "Keep improving";
+  scoreOutput.textContent = text ? `${score} / ${checklistItems.length}` : "Not analyzed";
+  scoreLabel.textContent = hasRevision ? "Revision checklist signals" : "Baseline checklist signals";
+  analysisSource.textContent = hasRevision
+    ? "Analyzing revision input. Checklist signals are heuristic, not proof of improvement or authorship."
+    : baseline ? "Analyzing weak baseline only; awaiting a changed revision."
+      : "No prompt analyzed; awaiting a baseline or revision.";
+  feedbackOutput.textContent = hasRevision ? buildFeedback(signals)
+    : baseline ? "Baseline only. Write a changed revision before evaluating revision checklist signals."
+      : "Start by loading a sample or entering a weak prompt, then write a stronger version.";
+  statusOutput.textContent = hasRevision ? (score >= 5 ? "Good revision" : "Keep improving") : "Awaiting revision";
 }
 
 function loadSample() {
@@ -146,13 +158,13 @@ function loadSample() {
   });
 
   analyzePrompt();
-  statusOutput.textContent = `${modeSelect.options[modeSelect.selectedIndex].text} weak prompt loaded`;
+  statusOutput.textContent = `${modeSelect.options[modeSelect.selectedIndex].text} baseline loaded; awaiting revision`;
 }
 
 function showStrongerVersion() {
   const sample = samples[modeSelect.value];
   strongerOutput.textContent = sample.stronger;
-  statusOutput.textContent = "Sample revealed";
+  statusOutput.textContent = "Example revealed (not your revision)";
 }
 
 function selectImprovedPrompt() {
@@ -192,7 +204,9 @@ function resetChallenge() {
   checklistOutput.innerHTML = "<li>Load or enter a prompt, then analyze your improved version.</li>";
   feedbackOutput.textContent = "A stronger prompt usually names the task, gives context, sets boundaries, and explains how the answer should be judged.";
   strongerOutput.textContent = "Choose Show stronger version to compare against a structured sample.";
-  scoreOutput.textContent = "0 / 7";
+  scoreOutput.textContent = "Not analyzed";
+  scoreLabel.textContent = "Checklist signals";
+  analysisSource.textContent = "No prompt analyzed; awaiting a baseline or revision.";
   statusOutput.textContent = "Local challenge";
 }
 
@@ -204,3 +218,14 @@ resetButton.addEventListener("click", resetChallenge);
 modeSelect.addEventListener("change", () => {
   statusOutput.textContent = `${modeSelect.options[modeSelect.selectedIndex].text} mode`;
 });
+
+[weakPrompt, improvedPrompt].forEach((field) => field.addEventListener("input", () => {
+  scoreOutput.textContent = "Not analyzed";
+  scoreLabel.textContent = "Checklist signals";
+  const hasRevision = normalize(improvedPrompt.value) && normalize(improvedPrompt.value) !== normalize(weakPrompt.value);
+  analysisSource.textContent = hasRevision ? "Revision input changed; not yet analyzed."
+    : "Baseline only or empty; awaiting a changed revision.";
+  checklistOutput.innerHTML = "";
+  feedbackOutput.textContent = "Current input has not been analyzed.";
+  statusOutput.textContent = hasRevision ? "Revision entered; not analyzed" : "Awaiting revision";
+}));

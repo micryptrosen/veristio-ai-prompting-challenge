@@ -1,5 +1,10 @@
 # Source Custody
 
+## Public Mirror Update Boundary - 2026-10-01
+
+Checklist matches are heuristic signals, not proof of authorship, semantic improvement or model performance. Book 19 remains reference-only; this prototype is not admitted book content or curriculum.
+This publication mirror contains independently scoped app files and public documentation, not private product memory, source-reference content or source-repository history. The MIT exclusions and existing custody rules below remain in force.
+
 ## Lane Verdict
 
 Entry 01 uses Book 19 as source reference only.

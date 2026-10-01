@@ -72,9 +72,11 @@
           </div>
 
           <div class="score-card">
-            <span class="score-label">Prompt strength</span>
-            <strong id="score-output">0 / 7</strong>
+            <span class="score-label" id="score-label">Checklist signals</span>
+            <strong id="score-output">Not analyzed</strong>
           </div>
+
+          <p id="analysis-source" class="note" aria-live="polite">No prompt analyzed; awaiting a baseline or revision.</p>
 
           <div class="checklist-card">
             <h3>Improvement checklist</h3>
@@ -89,7 +91,7 @@
           </div>
 
           <div class="sample-card">
-            <h3>Stronger sample version</h3>
+            <h3>Stronger example (not your revision)</h3>
             <pre id="stronger-output">Choose Show stronger version to compare against a structured sample.</pre>
           </div>
 
