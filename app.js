@@ -1,0 +1,206 @@
+const checklistItems = [
+  {
+    key: "goal",
+    label: "Goal / task clarity",
+    terms: ["write", "draft", "create", "summarize", "compare", "explain", "plan", "help", "analyze", "make"]
+  },
+  {
+    key: "context",
+    label: "Context",
+    terms: ["context", "background", "because", "situation", "for a", "about", "scenario", "details"]
+  },
+  {
+    key: "constraints",
+    label: "Constraints",
+    terms: ["must", "avoid", "under", "limit", "only", "include", "exclude", "constraint", "no more than"]
+  },
+  {
+    key: "audience",
+    label: "Audience",
+    terms: ["audience", "client", "customer", "student", "team", "manager", "reader", "beginner", "executive"]
+  },
+  {
+    key: "format",
+    label: "Output format",
+    terms: ["format", "bullets", "table", "email", "checklist", "outline", "json", "steps", "markdown"]
+  },
+  {
+    key: "examples",
+    label: "Examples / source notes",
+    terms: ["example", "source", "notes", "use this", "based on", "reference", "sample", "facts"]
+  },
+  {
+    key: "review",
+    label: "Review criteria",
+    terms: ["check", "review", "criteria", "verify", "revise", "ensure", "before final", "quality"]
+  }
+];
+
+const samples = {
+  beginner: {
+    weak: "Help me write better.",
+    gaps: ["context", "constraints", "audience", "format", "review"],
+    stronger: "Draft a polite email to my teacher asking for clarification about one homework question.\n\nContext: I understand questions one and two, but question three is unclear to me.\nAudience: My teacher.\nConstraints: Keep it under 120 words, be respectful, and ask one specific question.\nOutput format: Email draft with subject line.\nReview criteria: Before finalizing, check that the email is polite, specific, and easy to answer."
+  },
+  practical: {
+    weak: "Make a social post for my business.",
+    gaps: ["goal", "context", "constraints", "audience", "format", "review"],
+    stronger: "Create a LinkedIn post for a local bookkeeping service.\n\nGoal: Announce a free consultation week and encourage small business owners to book a call.\nContext: The audience may feel behind on receipts and tax prep.\nAudience: Small business owners.\nTone: Calm, practical, and trustworthy.\nConstraints: Under 150 words, no scare tactics, include one clear call to action.\nOutput format: Post copy plus three hashtag ideas.\nReview criteria: Check that the post is clear, non-pushy, and easy to act on."
+  },
+  advanced: {
+    weak: "Analyze this project plan.",
+    gaps: ["context", "constraints", "audience", "format", "examples", "review"],
+    stronger: "Analyze a software project plan for launch risk.\n\nContext: The team has two weeks left before launch, three unresolved accessibility issues, and no final QA owner.\nAudience: Product lead and engineering manager.\nConstraints: Do not invent missing data. Separate facts from assumptions. Prioritize risks by launch impact.\nSource notes: Use only the facts provided above.\nOutput format: Table with columns for risk, evidence, severity, mitigation, and owner question.\nReview criteria: Before finalizing, check that each risk is tied to evidence, uncertainty is explicit, and each mitigation has a clear next action."
+  }
+};
+
+const modeSelect = document.querySelector("#mode-select");
+const weakPrompt = document.querySelector("#weak-prompt");
+const improvedPrompt = document.querySelector("#improved-prompt");
+const missingElements = document.querySelector("#missing-elements");
+const checklistOutput = document.querySelector("#checklist-output");
+const feedbackOutput = document.querySelector("#feedback-output");
+const strongerOutput = document.querySelector("#stronger-output");
+const scoreOutput = document.querySelector("#score-output");
+const statusOutput = document.querySelector("#challenge-status");
+const loadSampleButton = document.querySelector("#load-sample");
+const analyzeButton = document.querySelector("#analyze-prompt");
+const strongerButton = document.querySelector("#show-stronger");
+const copyButton = document.querySelector("#copy-prompt");
+const resetButton = document.querySelector("#reset-challenge");
+
+function normalize(text) {
+  return text.trim().toLowerCase();
+}
+
+function detectSignals(promptText) {
+  const text = normalize(promptText);
+  const found = {};
+
+  checklistItems.forEach((item) => {
+    found[item.key] = item.terms.some((term) => text.includes(term));
+  });
+
+  return found;
+}
+
+function getCheckedGaps() {
+  return Array.from(missingElements.querySelectorAll("input:checked")).map((input) => input.value);
+}
+
+function renderChecklist(signals) {
+  checklistOutput.innerHTML = "";
+
+  checklistItems.forEach((item) => {
+    const li = document.createElement("li");
+    li.className = signals[item.key] ? "met" : "missing";
+    li.textContent = `${signals[item.key] ? "Met" : "Missing"}: ${item.label}`;
+    checklistOutput.appendChild(li);
+  });
+}
+
+function buildFeedback(signals) {
+  const missing = checklistItems.filter((item) => !signals[item.key]);
+  const checkedGaps = getCheckedGaps();
+  const score = checklistItems.length - missing.length;
+
+  if (!normalize(improvedPrompt.value) && normalize(weakPrompt.value)) {
+    return "Now write an improved prompt. Try adding the gaps you checked before analyzing again.";
+  }
+
+  if (!normalize(improvedPrompt.value) && !normalize(weakPrompt.value)) {
+    return "Start by loading a sample or entering a weak prompt, then write a stronger version.";
+  }
+
+  if (score === checklistItems.length) {
+    return "Strong work. Your improved prompt covers the main signals: task, context, constraints, audience, format, source notes, and review criteria.";
+  }
+
+  const missingLabels = missing.map((item) => item.label.toLowerCase()).join(", ");
+  const noticing = checkedGaps.length
+    ? ` You noticed ${checkedGaps.length} gap${checkedGaps.length === 1 ? "" : "s"} before revising.`
+    : " Try checking the gaps you notice before revising.";
+
+  return `Your prompt is improving, and it still needs: ${missingLabels}.${noticing}`;
+}
+
+function analyzePrompt() {
+  const text = improvedPrompt.value || weakPrompt.value;
+  const signals = detectSignals(text);
+  const score = Object.values(signals).filter(Boolean).length;
+
+  renderChecklist(signals);
+  scoreOutput.textContent = `${score} / ${checklistItems.length}`;
+  feedbackOutput.textContent = buildFeedback(signals);
+  statusOutput.textContent = score >= 5 ? "Good revision" : "Keep improving";
+}
+
+function loadSample() {
+  const sample = samples[modeSelect.value];
+  weakPrompt.value = sample.weak;
+  improvedPrompt.value = "";
+  strongerOutput.textContent = "Choose Show stronger version to compare against a structured sample.";
+
+  missingElements.querySelectorAll("input").forEach((input) => {
+    input.checked = sample.gaps.includes(input.value);
+  });
+
+  analyzePrompt();
+  statusOutput.textContent = `${modeSelect.options[modeSelect.selectedIndex].text} weak prompt loaded`;
+}
+
+function showStrongerVersion() {
+  const sample = samples[modeSelect.value];
+  strongerOutput.textContent = sample.stronger;
+  statusOutput.textContent = "Sample revealed";
+}
+
+function selectImprovedPrompt() {
+  improvedPrompt.focus();
+  improvedPrompt.select();
+}
+
+async function copyImprovedPrompt() {
+  const text = improvedPrompt.value.trim();
+
+  if (!text) {
+    statusOutput.textContent = "Nothing to copy";
+    return;
+  }
+
+  if (!navigator.clipboard) {
+    statusOutput.textContent = "Select text to copy";
+    selectImprovedPrompt();
+    return;
+  }
+
+  try {
+    await navigator.clipboard.writeText(text);
+    statusOutput.textContent = "Copied";
+  } catch {
+    statusOutput.textContent = "Copy blocked; text selected";
+    selectImprovedPrompt();
+  }
+}
+
+function resetChallenge() {
+  weakPrompt.value = "";
+  improvedPrompt.value = "";
+  missingElements.querySelectorAll("input").forEach((input) => {
+    input.checked = false;
+  });
+  checklistOutput.innerHTML = "<li>Load or enter a prompt, then analyze your improved version.</li>";
+  feedbackOutput.textContent = "A stronger prompt usually names the task, gives context, sets boundaries, and explains how the answer should be judged.";
+  strongerOutput.textContent = "Choose Show stronger version to compare against a structured sample.";
+  scoreOutput.textContent = "0 / 7";
+  statusOutput.textContent = "Local challenge";
+}
+
+loadSampleButton.addEventListener("click", loadSample);
+analyzeButton.addEventListener("click", analyzePrompt);
+strongerButton.addEventListener("click", showStrongerVersion);
+copyButton.addEventListener("click", copyImprovedPrompt);
+resetButton.addEventListener("click", resetChallenge);
+modeSelect.addEventListener("change", () => {
+  statusOutput.textContent = `${modeSelect.options[modeSelect.selectedIndex].text} mode`;
+});

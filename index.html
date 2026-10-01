@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Veristio AI Prompting Challenge</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Entry 01 - AI Prompting Challenge</p>
+          <h1>Practice turning weak prompts into useful prompts</h1>
+        </div>
+        <div class="status-pill" id="challenge-status" aria-live="polite">Local challenge</div>
+      </header>
+
+      <section class="challenge-grid" aria-label="Prompt challenge workspace">
+        <section class="panel setup-panel">
+          <div class="section-heading">
+            <h2>Challenge setup</h2>
+            <p>Choose a mode, load a weak prompt, then write a stronger version.</p>
+          </div>
+
+          <label>
+            <span>Challenge mode</span>
+            <select id="mode-select">
+              <option value="beginner">Beginner</option>
+              <option value="practical">Practical</option>
+              <option value="advanced">Advanced</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Weak prompt</span>
+            <textarea id="weak-prompt" rows="5" placeholder="Enter a vague prompt or load a sample."></textarea>
+          </label>
+
+          <div class="hint-card">
+            <h3>Find what is missing</h3>
+            <fieldset id="missing-elements">
+              <legend>Check the gaps you notice before improving the prompt.</legend>
+              <label><input type="checkbox" value="goal"> Goal or task clarity</label>
+              <label><input type="checkbox" value="context"> Context</label>
+              <label><input type="checkbox" value="constraints"> Constraints</label>
+              <label><input type="checkbox" value="audience"> Audience</label>
+              <label><input type="checkbox" value="format"> Output format</label>
+              <label><input type="checkbox" value="examples"> Examples or source notes</label>
+              <label><input type="checkbox" value="review"> Review criteria</label>
+            </fieldset>
+          </div>
+
+          <label>
+            <span>Your improved prompt</span>
+            <textarea id="improved-prompt" rows="8" placeholder="Rewrite the prompt with clearer task, context, constraints, audience, output format, source notes, and review criteria."></textarea>
+          </label>
+
+          <div class="button-row">
+            <button type="button" id="load-sample">Load sample</button>
+            <button type="button" class="primary" id="analyze-prompt">Analyze prompt</button>
+            <button type="button" id="show-stronger">Show stronger version</button>
+            <button type="button" id="copy-prompt">Copy improved prompt</button>
+            <button type="button" id="reset-challenge">Reset</button>
+          </div>
+        </section>
+
+        <section class="panel results-panel">
+          <div class="section-heading">
+            <h2>Feedback</h2>
+            <p>Use the checklist to see what your prompt now makes clear.</p>
+          </div>
+
+          <div class="score-card">
+            <span class="score-label">Prompt strength</span>
+            <strong id="score-output">0 / 7</strong>
+          </div>
+
+          <div class="checklist-card">
+            <h3>Improvement checklist</h3>
+            <ul id="checklist-output">
+              <li>Load or enter a prompt, then analyze your improved version.</li>
+            </ul>
+          </div>
+
+          <div class="feedback-card">
+            <h3>Coaching feedback</h3>
+            <p id="feedback-output">A stronger prompt usually names the task, gives context, sets boundaries, and explains how the answer should be judged.</p>
+          </div>
+
+          <div class="sample-card">
+            <h3>Stronger sample version</h3>
+            <pre id="stronger-output">Choose Show stronger version to compare against a structured sample.</pre>
+          </div>
+
+          <aside class="note">
+            This app is a local practice challenge. It does not call an AI service, store input, or copy Book 19 manuscript text.
+          </aside>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js?v=manual-browser-qa-copy"></script>
+  </body>
+</html>
