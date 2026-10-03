@@ -55,6 +55,44 @@ const samples = {
 };
 
 const modeSelect = document.querySelector("#mode-select");
+const scenarioSelect = document.querySelector("#scenario-select");
+const scenarioNames = {
+  beginner: ["Teacher email", "Explain a topic"],
+  practical: ["Business social post", "Meeting agenda"],
+  advanced: ["Project risk", "Evidence comparison"]
+};
+const extraScenarios = {
+  beginner: {
+    weak: "Explain it to me.",
+    gaps: ["goal", "context", "audience", "format", "review"],
+    stronger: "Explain how a household budget works. Context: I am planning my first monthly budget. Audience: A beginner. Constraints: Use plain language and avoid financial advice. Output format: Five steps and an example using fictional amounts. Review criteria: Check that income, expenses and savings are distinguished."
+  },
+  practical: {
+    weak: "Plan a meeting.",
+    gaps: ["context", "constraints", "audience", "format", "review"],
+    stronger: "Create a 30-minute team meeting agenda. Context: We need to choose the next task for a small website project. Audience: The project team. Constraints: Include time limits and one decision point. Source notes: No new budget is available. Output format: Table of topics, minutes and owner. Review criteria: Check that topics fit 30 minutes and end with next steps."
+  },
+  advanced: {
+    weak: "Which option is best?",
+    gaps: ["goal", "context", "constraints", "examples", "review"],
+    stronger: "Compare two software options using supplied source notes. Context: A small team needs an accessible task tracker. Audience: The team manager. Constraints: Do not invent pricing or capabilities; separate evidence from assumptions. Source notes: Paste the option facts here before using this prompt. Output format: Comparison table with evidence gaps and owner questions. Review criteria: Check that every recommendation is tied to supplied facts."
+  }
+};
+
+function selectedScenario() {
+  return scenarioSelect.value === "1" ? extraScenarios[modeSelect.value] : samples[modeSelect.value];
+}
+
+function refreshScenarioChoices() {
+  scenarioSelect.innerHTML = "";
+  scenarioNames[modeSelect.value].forEach((name, index) => {
+    const option = document.createElement("option");
+    option.value = String(index);
+    option.textContent = name;
+    scenarioSelect.appendChild(option);
+  });
+  scenarioSelect.value = "0";
+}
 const weakPrompt = document.querySelector("#weak-prompt");
 const improvedPrompt = document.querySelector("#improved-prompt");
 const missingElements = document.querySelector("#missing-elements");
@@ -151,7 +189,7 @@ function analyzePrompt() {
 }
 
 function loadSample() {
-  const sample = samples[modeSelect.value];
+  const sample = selectedScenario();
   weakPrompt.value = sample.weak;
   improvedPrompt.value = "";
   strongerOutput.textContent = "Choose Show stronger version to compare against a structured sample.";
@@ -161,12 +199,14 @@ function loadSample() {
   });
 
   analyzePrompt();
-  statusOutput.textContent = `${modeSelect.options[modeSelect.selectedIndex].text} baseline loaded; awaiting revision`;
+  const name = scenarioNames[modeSelect.value][scenarioSelect.value === "1" ? 1 : 0];
+  statusOutput.textContent = `${name} baseline loaded; awaiting revision`;
 }
 
 function showStrongerVersion() {
-  const sample = samples[modeSelect.value];
-  strongerOutput.textContent = sample.stronger;
+  const sample = selectedScenario();
+  const name = scenarioNames[modeSelect.value][scenarioSelect.value === "1" ? 1 : 0];
+  strongerOutput.textContent = `Example scenario: ${name}\n\n${sample.stronger}`;
   statusOutput.textContent = "Example revealed (not your revision)";
 }
 
@@ -199,6 +239,7 @@ async function copyImprovedPrompt() {
 }
 
 function resetChallenge() {
+  refreshScenarioChoices();
   weakPrompt.value = "";
   improvedPrompt.value = "";
   missingElements.querySelectorAll("input").forEach((input) => {
@@ -219,7 +260,13 @@ strongerButton.addEventListener("click", showStrongerVersion);
 copyButton.addEventListener("click", copyImprovedPrompt);
 resetButton.addEventListener("click", resetChallenge);
 modeSelect.addEventListener("change", () => {
+  refreshScenarioChoices();
+  strongerOutput.textContent = "Choose Show stronger version to compare against a structured sample.";
   statusOutput.textContent = `${modeSelect.options[modeSelect.selectedIndex].text} mode`;
+});
+scenarioSelect.addEventListener("change", () => {
+  strongerOutput.textContent = "Choose Show stronger version to compare against a structured sample.";
+  statusOutput.textContent = "Scenario selected; baseline and revision unchanged";
 });
 
 [weakPrompt, improvedPrompt].forEach((field) => field.addEventListener("input", () => {

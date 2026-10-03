@@ -1,5 +1,14 @@
 # Roadmap
 
+## Current Product Value - 2026-10-03
+
+Choose Beginner, Practical or Advanced, then one of two practice scenarios in that difficulty (six total). Load sample replaces the weak baseline and clears revision; changing the selector alone preserves your current work. A revealed stronger example names its scenario and stays separate from your revision. Checklist hits remain lexical signals, not semantic quality or guaranteed effectiveness.
+
+This bounded addition is implemented and owner-accepted in the governed product home. This independent-history mirror carries only public-safe app/docs. Owner acceptance is not customer or production validation. Earlier dated preparation/update statements below are historical; they do not certify current publication status.
+Static local operation, no network dependency or input storage, and MIT license preserved. Existing demo predates these additions; no new recording/playback claim. The hackathon submission route remains abandoned; this is non-hackathon product continuation.
+
+Next: use the bounded addition and report concrete usability issues. Further feature work, mirror synchronization or publication requires separate owner authorization; no automatic promotion.
+
 ## Current Maintenance State - 2026-10-03
 
 Literal checklist terms are now shown as wording signals found or not found. Counts include substring/negated wording and are not semantic quality grades; revision feedback no longer praises quality from counts. Baseline, changed revision and stronger example remain separate.

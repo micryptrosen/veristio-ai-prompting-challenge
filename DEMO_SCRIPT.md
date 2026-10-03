@@ -1,5 +1,11 @@
 # Demo Script - AI Prompting Challenge
 
+## Product Value Walkthrough - 2026-10-03
+
+Under three minutes: select both scenarios in a difficulty, load a baseline, write and analyze your own revision, reveal the named separate example, copy your revision and reset. Show another difficulty; explain lexical checklist limits.
+
+This is a future local walkthrough, not evidence of a new recording. Existing public demo predates these additions; no new playback or upload is claimed. Earlier walkthroughs below are historical. No Devpost submission.
+
 ## Current Maintenance Walkthrough - 2026-10-03
 
 Future walkthrough, under three minutes: Analyze a rich weak baseline with blank/unchanged revision. Compare a meaningful changed revision with keyword-only, negated and substring wording. Inspect matched-term explanations, reveal the separate example, copy your revision and reset.
