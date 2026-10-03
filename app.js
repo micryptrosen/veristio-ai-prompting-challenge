@@ -90,13 +90,16 @@ function getCheckedGaps() {
   return Array.from(missingElements.querySelectorAll("input:checked")).map((input) => input.value);
 }
 
-function renderChecklist(signals) {
+function renderChecklist(signals, promptText) {
   checklistOutput.innerHTML = "";
 
   checklistItems.forEach((item) => {
     const li = document.createElement("li");
     li.className = signals[item.key] ? "met" : "missing";
-    li.textContent = `${signals[item.key] ? "Met" : "Missing"}: ${item.label}`;
+    const term = item.terms.find((term) => normalize(promptText).includes(term));
+    li.textContent = signals[item.key]
+      ? `Wording signal found: ${item.label} (matched text: "${term}")`
+      : `Wording signal not found: ${item.label}`;
     checklistOutput.appendChild(li);
   });
 }
@@ -115,7 +118,7 @@ function buildFeedback(signals) {
   }
 
   if (score === checklistItems.length) {
-    return "Strong work. Your improved prompt covers the main signals: task, context, constraints, audience, format, source notes, and review criteria.";
+    return "Wording signals found in all seven categories. Keywords alone do not establish clarity, completeness, or usefulness. Review whether each instruction actually fits your task.";
   }
 
   const missingLabels = missing.map((item) => item.label.toLowerCase()).join(", ");
@@ -123,7 +126,7 @@ function buildFeedback(signals) {
     ? ` You noticed ${checkedGaps.length} gap${checkedGaps.length === 1 ? "" : "s"} before revising.`
     : " Try checking the gaps you notice before revising.";
 
-  return `Your prompt is improving, and it still needs: ${missingLabels}.${noticing}`;
+  return `No listed wording signal found for: ${missingLabels}. The idea may still be expressed in other words; review the meaning yourself.${noticing}`;
 }
 
 function analyzePrompt() {
@@ -134,17 +137,17 @@ function analyzePrompt() {
   const signals = detectSignals(text);
   const score = Object.values(signals).filter(Boolean).length;
 
-  renderChecklist(signals);
+  renderChecklist(signals, text);
   scoreOutput.textContent = text ? `${score} / ${checklistItems.length}` : "Not analyzed";
   scoreLabel.textContent = hasRevision ? "Revision checklist signals" : "Baseline checklist signals";
   analysisSource.textContent = hasRevision
-    ? "Analyzing revision input. Checklist signals are heuristic, not proof of improvement or authorship."
-    : baseline ? "Analyzing weak baseline only; awaiting a changed revision."
+    ? "Analyzing revision input. Counts reflect literal substring matches, including negated words and words inside other words; not semantic quality or proof of improvement."
+    : baseline ? "Analyzing weak baseline only; awaiting a changed revision. Counts are literal wording matches, not semantic quality."
       : "No prompt analyzed; awaiting a baseline or revision.";
   feedbackOutput.textContent = hasRevision ? buildFeedback(signals)
     : baseline ? "Baseline only. Write a changed revision before evaluating revision checklist signals."
       : "Start by loading a sample or entering a weak prompt, then write a stronger version.";
-  statusOutput.textContent = hasRevision ? (score >= 5 ? "Good revision" : "Keep improving") : "Awaiting revision";
+  statusOutput.textContent = hasRevision ? "Revision wording analyzed" : "Awaiting revision";
 }
 
 function loadSample() {

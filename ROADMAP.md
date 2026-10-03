@@ -1,5 +1,12 @@
 # Roadmap
 
+## Current Maintenance State - 2026-10-03
+
+Literal checklist terms are now shown as wording signals found or not found. Counts include substring/negated wording and are not semantic quality grades; revision feedback no longer praises quality from counts. Baseline, changed revision and stronger example remain separate.
+
+Implemented and owner-accepted in the product home, prepared locally in this mirror. Next: review candidate diff and local verification before separately authorizing an exact-commit push. No automatic synchronization or new features. Earlier update/push instructions below are historical.
+Preserve MIT, existing demo and source boundaries. This update does not reopen the abandoned hackathon submission route.
+
 ## Current Product Update - 2026-10-01
 
 Preserved non-hackathon Veristio prototype. The owner accepted this bounded repair in the governed product home; it is now prepared locally in the publication mirror:

@@ -1,5 +1,12 @@
 # AI Prompting Challenge
 
+## Accepted Maintenance Prepared Locally - 2026-10-03
+
+Literal checklist terms are now shown as wording signals found or not found. Counts include substring/negated wording and are not semantic quality grades; revision feedback no longer praises quality from counts. Baseline, changed revision and stronger example remain separate.
+
+The owner accepted this bounded behavior in the product home. This publication mirror is prepared locally; the new maintenance commit has not been pushed. Owner acceptance is not customer or production validation. Static/no-network architecture and MIT license unchanged.
+Existing demo predates this maintenance update; no new recording/playback verification is claimed. Historical notes below retain their original dates. Further publication requires separate approval.
+
 A dependency-free local Veristio prototype, preserved beyond its original hackathon effort.
 
 ## Accepted Usefulness Update - 2026-10-01
