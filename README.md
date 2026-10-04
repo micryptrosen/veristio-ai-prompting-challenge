@@ -1,5 +1,12 @@
 # AI Prompting Challenge
 
+## Sample Replacement Protection - 2026-10-04
+
+Load sample asks before replacing work changed since the initial state, last successful sample load or Reset. Cancel keeps current inputs and generated output; confirm loads the sample. Unchanged sample values load directly. Reset still clears work immediately; no autosave is added.
+Baseline, learner revision and gap hints are protected. Scenario selectors and the separate stronger example retain their existing behavior.
+Implemented and owner-accepted. Static local-only operation and MIT remain unchanged; physical-phone review deferred.
+Earlier snapshot notes below are historical checkpoints.
+
 ## Current Public-safe Snapshot - 2026-10-04
 
 Runtime is unchanged in this documentation update. Baseline, learner revision, sample-provided hints and stronger example stay separate. Checklist matches are lexical signals, not semantic-quality proof; copying still requires current analyzed learner revision.

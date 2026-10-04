@@ -205,7 +205,30 @@ function analyzePrompt() {
   if (hasRevision) analysisSnapshot = { inputs: inputSnapshot() };
 }
 
+// Sample replacement protection: selectors choose a target, not learner work.
+let sampleLoadBaseline;
+function sampleProtectedState(target = false) {
+  const sample = selectedScenario();
+  return JSON.stringify({
+    weak: target ? sample.weak : weakPrompt.value,
+    revision: target ? "" : improvedPrompt.value,
+    hints: Array.from(missingElements.querySelectorAll("input")).map((input) =>
+      target ? sample.gaps.includes(input.value) : input.checked)
+  });
+}
+function sampleReplacementAllowed() {
+  const current = sampleProtectedState();
+  if (current === sampleLoadBaseline || current === sampleProtectedState(true)) return true;
+  try {
+    return typeof window.confirm === "function" && window.confirm("Replace the current baseline and gap hints and clear your revision? Cancel to keep your work.") === true;
+  } catch {
+    return false;
+  }
+}
+// End sample replacement protection.
+
 function loadSample() {
+  if (!sampleReplacementAllowed()) return;
   const sample = selectedScenario();
   weakPrompt.value = sample.weak;
   improvedPrompt.value = "";
@@ -218,6 +241,7 @@ function loadSample() {
   analyzePrompt();
   const name = scenarioNames[modeSelect.value][scenarioSelect.value === "1" ? 1 : 0];
   statusOutput.textContent = `${name} baseline loaded; awaiting revision`;
+  sampleLoadBaseline = sampleProtectedState();
 }
 
 function showStrongerVersion() {
@@ -282,8 +306,10 @@ function resetChallenge() {
   scoreLabel.textContent = "Checklist signals";
   analysisSource.textContent = "No prompt analyzed; awaiting a baseline or revision.";
   statusOutput.textContent = "Local challenge";
+  sampleLoadBaseline = sampleProtectedState();
 }
 
+sampleLoadBaseline = sampleProtectedState();
 loadSampleButton.addEventListener("click", loadSample);
 analyzeButton.addEventListener("click", analyzePrompt);
 strongerButton.addEventListener("click", showStrongerVersion);
