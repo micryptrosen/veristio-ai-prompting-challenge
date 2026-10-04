@@ -108,6 +108,21 @@ const analyzeButton = document.querySelector("#analyze-prompt");
 const strongerButton = document.querySelector("#show-stronger");
 const copyButton = document.querySelector("#copy-prompt");
 const resetButton = document.querySelector("#reset-challenge");
+let analysisSnapshot = null;
+let copyOperation = 0;
+
+function inputSnapshot() {
+  return JSON.stringify([weakPrompt.value, improvedPrompt.value, modeSelect.value, scenarioSelect.value, getCheckedGaps()]);
+}
+
+function invalidateCopyAnalysis() {
+  analysisSnapshot = null;
+  copyOperation += 1;
+}
+
+function analysisIsCurrent() {
+  return analysisSnapshot && analysisSnapshot.inputs === inputSnapshot();
+}
 
 function normalize(text) {
   return text.trim().toLowerCase();
@@ -168,6 +183,7 @@ function buildFeedback(signals) {
 }
 
 function analyzePrompt() {
+  invalidateCopyAnalysis();
   const revision = improvedPrompt.value.trim();
   const baseline = weakPrompt.value.trim();
   const hasRevision = Boolean(revision) && normalize(revision) !== normalize(baseline);
@@ -186,6 +202,7 @@ function analyzePrompt() {
     : baseline ? "Baseline only. Write a changed revision before evaluating revision checklist signals."
       : "Start by loading a sample or entering a weak prompt, then write a stronger version.";
   statusOutput.textContent = hasRevision ? "Revision wording analyzed" : "Awaiting revision";
+  if (hasRevision) analysisSnapshot = { inputs: inputSnapshot() };
 }
 
 function loadSample() {
@@ -204,6 +221,7 @@ function loadSample() {
 }
 
 function showStrongerVersion() {
+  copyOperation += 1;
   const sample = selectedScenario();
   const name = scenarioNames[modeSelect.value][scenarioSelect.value === "1" ? 1 : 0];
   strongerOutput.textContent = `Example scenario: ${name}\n\n${sample.stronger}`;
@@ -216,12 +234,21 @@ function selectImprovedPrompt() {
 }
 
 async function copyImprovedPrompt() {
+  const operation = ++copyOperation;
   const text = improvedPrompt.value.trim();
 
   if (!text) {
     statusOutput.textContent = "Nothing to copy";
     return;
   }
+
+  if (!analysisIsCurrent()) {
+    statusOutput.textContent = "Analyze the current revision before copying";
+    return;
+  }
+
+  const snapshot = analysisSnapshot;
+  const canComplete = () => operation === copyOperation && snapshot === analysisSnapshot && analysisIsCurrent();
 
   if (!navigator.clipboard) {
     statusOutput.textContent = "Select text to copy";
@@ -231,14 +258,17 @@ async function copyImprovedPrompt() {
 
   try {
     await navigator.clipboard.writeText(text);
+    if (!canComplete()) return;
     statusOutput.textContent = "Copied";
   } catch {
+    if (!canComplete()) return;
     statusOutput.textContent = "Copy blocked; text selected";
     selectImprovedPrompt();
   }
 }
 
 function resetChallenge() {
+  invalidateCopyAnalysis();
   refreshScenarioChoices();
   weakPrompt.value = "";
   improvedPrompt.value = "";
@@ -260,16 +290,19 @@ strongerButton.addEventListener("click", showStrongerVersion);
 copyButton.addEventListener("click", copyImprovedPrompt);
 resetButton.addEventListener("click", resetChallenge);
 modeSelect.addEventListener("change", () => {
+  invalidateCopyAnalysis();
   refreshScenarioChoices();
   strongerOutput.textContent = "Choose Show stronger version to compare against a structured sample.";
   statusOutput.textContent = `${modeSelect.options[modeSelect.selectedIndex].text} mode`;
 });
 scenarioSelect.addEventListener("change", () => {
+  invalidateCopyAnalysis();
   strongerOutput.textContent = "Choose Show stronger version to compare against a structured sample.";
   statusOutput.textContent = "Scenario selected; baseline and revision unchanged";
 });
 
 [weakPrompt, improvedPrompt].forEach((field) => field.addEventListener("input", () => {
+  invalidateCopyAnalysis();
   scoreOutput.textContent = "Not analyzed";
   scoreLabel.textContent = "Checklist signals";
   const hasRevision = normalize(improvedPrompt.value) && normalize(improvedPrompt.value) !== normalize(weakPrompt.value);
@@ -279,3 +312,7 @@ scenarioSelect.addEventListener("change", () => {
   feedbackOutput.textContent = "Current input has not been analyzed.";
   statusOutput.textContent = hasRevision ? "Revision entered; not analyzed" : "Awaiting revision";
 }));
+missingElements.addEventListener("change", () => {
+  invalidateCopyAnalysis();
+  statusOutput.textContent = "Hint selections changed; analyze before copying";
+});

@@ -1,5 +1,11 @@
 # Roadmap
 
+## Post-Pages Accepted Product Updates - 2026-10-04
+
+Copy improved prompt now requires current analysis of a changed revision. Edits, hints, reset, sample/scenario/mode changes, reanalysis and newer copies prevent obsolete clipboard status or fallback selection. Already-started clipboard writes cannot be recalled. Baseline/revision/example separation, hint ownership and lexical scoring are unchanged.
+
+Next: collect concrete use feedback and separately scope improvements. No automatic product-to-mirror synchronization; further changes require review.
+
 ## Accepted Maintenance Prepared Locally - 2026-10-04
 
 Sample-loaded gap hints are explicitly suggestions. Feedback reports current selections, not gaps discovered by the learner or proof of understanding. Six scenarios, lexical counts and baseline/revision/separate-example behavior are unchanged.

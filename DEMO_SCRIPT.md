@@ -1,5 +1,11 @@
 # Demo Script - AI Prompting Challenge
 
+## Post-Pages Accepted Product Updates - 2026-10-04
+
+Load a scenario, write a changed revision, Analyze and Copy. Edit revision or hints and try Copy: reanalyze first. Reset/change sample and keep examples separate from learner work.
+
+This is a current walkthrough, not evidence that the existing demo video was re-recorded.
+
 ## Accepted Maintenance Prepared Locally - 2026-10-04
 
 Load a sample without touching hint boxes, enter a partial revision and analyze. Inspect neutral selection wording, clear/toggle hints and reanalyze; reveal the separate example, copy your revision and reset.
