@@ -1,5 +1,12 @@
 # Roadmap
 
+## Actionable Review Aids - 2026-10-04
+
+Seven lexical categories compare a supplied baseline and a genuinely changed nonblank revision using neutral newly/still/no-longer/neither-matched labels. Matches do not establish semantic quality or improvement. Hints/examples remain separate, scoring and current revision copy stay unchanged.
+[Open the public app](https://micryptrosen.github.io/veristio-ai-prompting-challenge/).
+Owner-accepted bounded update. Static local-only architecture and MIT preserved; future changes require bounded review.
+Existing demo video predates this addition and has not been re-recorded. Physical-phone review remains deferred. Earlier dated preparation/status notes below are historical checkpoints; publication evidence is maintained separately.
+
 ## Sample Replacement Protection - 2026-10-04
 
 Load sample asks before replacing work changed since the initial state, last successful sample load or Reset. Cancel keeps current inputs and generated output; confirm loads the sample. Unchanged sample values load directly. Reset still clears work immediately; no autosave is added.

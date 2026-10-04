@@ -97,6 +97,7 @@ const weakPrompt = document.querySelector("#weak-prompt");
 const improvedPrompt = document.querySelector("#improved-prompt");
 const missingElements = document.querySelector("#missing-elements");
 const checklistOutput = document.querySelector("#checklist-output");
+const comparisonOutput = document.querySelector("#comparison-output");
 const feedbackOutput = document.querySelector("#feedback-output");
 const strongerOutput = document.querySelector("#stronger-output");
 const scoreOutput = document.querySelector("#score-output");
@@ -116,6 +117,8 @@ function inputSnapshot() {
 }
 
 function invalidateCopyAnalysis() {
+  comparisonOutput.innerHTML = "";
+  comparisonOutput.textContent = "Comparison unavailable: analyze a supplied baseline and a changed nonblank revision.";
   analysisSnapshot = null;
   copyOperation += 1;
 }
@@ -192,6 +195,21 @@ function analyzePrompt() {
   const score = Object.values(signals).filter(Boolean).length;
 
   renderChecklist(signals, text);
+  // Comparison uses the same lexical matcher; it is not a semantic quality assessment.
+  if (baseline && hasRevision) {
+    comparisonOutput.textContent = "";
+    comparisonOutput.innerHTML = "";
+    const baselineSignals = detectSignals(baseline);
+    checklistItems.forEach((item) => {
+      const before = baselineSignals[item.key];
+      const after = signals[item.key];
+      const state = before ? (after ? "still matched" : "no longer matched") : (after ? "newly matched" : "neither matched");
+      const li = document.createElement("li");
+      li.textContent = `${item.label}: baseline ${before ? "matched" : "not matched"}; revision ${after ? "matched" : "not matched"}; ${state}.`;
+      comparisonOutput.appendChild(li);
+    });
+  }
+  // End lexical comparison.
   scoreOutput.textContent = text ? `${score} / ${checklistItems.length}` : "Not analyzed";
   scoreLabel.textContent = hasRevision ? "Revision checklist signals" : "Baseline checklist signals";
   analysisSource.textContent = hasRevision
