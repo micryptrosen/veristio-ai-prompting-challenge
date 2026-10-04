@@ -108,6 +108,7 @@ const loadSampleButton = document.querySelector("#load-sample");
 const analyzeButton = document.querySelector("#analyze-prompt");
 const strongerButton = document.querySelector("#show-stronger");
 const copyButton = document.querySelector("#copy-prompt");
+const exportButton = document.querySelector("#export-brief");
 const resetButton = document.querySelector("#reset-challenge");
 let analysisSnapshot = null;
 let copyOperation = 0;
@@ -117,6 +118,7 @@ function inputSnapshot() {
 }
 
 function invalidateCopyAnalysis() {
+  exportButton.disabled = true;
   comparisonOutput.innerHTML = "";
   comparisonOutput.textContent = "Comparison unavailable: analyze a supplied baseline and a changed nonblank revision.";
   analysisSnapshot = null;
@@ -221,7 +223,42 @@ function analyzePrompt() {
       : "Start by loading a sample or entering a weak prompt, then write a stronger version.";
   statusOutput.textContent = hasRevision ? "Revision wording analyzed" : "Awaiting revision";
   if (hasRevision) analysisSnapshot = { inputs: inputSnapshot() };
+  // Snapshot brief addition.
+  if (baseline && hasRevision) {
+    analysisSnapshot.brief = ["AI Prompting Challenge practice brief", "", "User-supplied baseline:", baseline, "", "User-supplied revision:", revision, "", "Lexical baseline / revision comparison:", ...Array.from(comparisonOutput.children).map((li) => "- " + li.textContent), "", "Literal matches only; not semantic quality, proof of improvement or learning gain. Hints and examples are separate."].join("\n");
+    exportButton.disabled = false;
+  }
+  // End snapshot brief addition.
 }
+
+// Current practice brief download; revision clipboard payload remains unchanged.
+function exportPracticeBrief() {
+  copyOperation += 1;
+  if (!analysisIsCurrent() || !analysisSnapshot.brief) {
+    exportButton.disabled = true;
+    statusOutput.textContent = "Analyze a current baseline and changed revision before downloading";
+    return;
+  }
+  let url, link;
+  try {
+    const blob = new Blob([analysisSnapshot.brief], { type: "text/plain;charset=utf-8" });
+    url = URL.createObjectURL(blob);
+    link = document.createElement("a");
+    if (typeof link.download !== "string") throw new Error("Download unavailable");
+    link.href = url;
+    link.download = "ai-prompting-challenge-practice-brief.txt";
+    link.hidden = true;
+    document.body.appendChild(link);
+    link.click();
+    statusOutput.textContent = "Practice brief download requested";
+  } catch {
+    statusOutput.textContent = "Download unavailable; use Copy improved prompt";
+  } finally {
+    if (link) link.remove();
+    if (url) window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+}
+// End practice brief download.
 
 // Sample replacement protection: selectors choose a target, not learner work.
 let sampleLoadBaseline;
@@ -332,6 +369,7 @@ loadSampleButton.addEventListener("click", loadSample);
 analyzeButton.addEventListener("click", analyzePrompt);
 strongerButton.addEventListener("click", showStrongerVersion);
 copyButton.addEventListener("click", copyImprovedPrompt);
+exportButton.addEventListener("click", exportPracticeBrief);
 resetButton.addEventListener("click", resetChallenge);
 modeSelect.addEventListener("change", () => {
   invalidateCopyAnalysis();

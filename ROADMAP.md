@@ -1,5 +1,13 @@
 # Roadmap
 
+## Practice brief - Current Public-Safe Update
+
+Download practice brief (.txt) saves the current baseline, changed revision and seven lexical comparison rows with a non-semantic caveat. Supply both baseline and changed revision and analyze first. Edits or Reset require new analysis. Copy improved prompt remains revision-only; examples and hints are not learner evidence.
+
+App: https://micryptrosen.github.io/veristio-ai-prompting-challenge/
+Use the live app or open index.html locally. Existing video walkthroughs predate this update. Earlier roadmap/demo checkpoints below remain historical. Static local-only behavior; no accounts, backend, persistence or external services added.
+
+
 ## Actionable Review Aids - 2026-10-04
 
 Seven lexical categories compare a supplied baseline and a genuinely changed nonblank revision using neutral newly/still/no-longer/neither-matched labels. Matches do not establish semantic quality or improvement. Hints/examples remain separate, scoring and current revision copy stay unchanged.
