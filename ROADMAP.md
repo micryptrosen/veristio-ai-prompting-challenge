@@ -1,5 +1,12 @@
 # Roadmap
 
+## Current Public-safe Snapshot - 2026-10-04
+
+Runtime is unchanged in this documentation update. Baseline, learner revision, sample-provided hints and stronger example stay separate. Checklist matches are lexical signals, not semantic-quality proof; copying still requires current analyzed learner revision.
+Next: collect concrete use feedback; future features and product-to-mirror updates require separately bounded review.
+Earlier dated local-preparation/not-yet-pushed statements below describe historical checkpoints, not the current snapshot or today's publication result. Owner acceptance is not independent customer validation.
+Static local-only operation and MIT license preserved. Existing demo URLs and historical Skill Pack documentation are unchanged; physical-phone review remains deferred.
+
 ## Post-Pages Accepted Product Updates - 2026-10-04
 
 Copy improved prompt now requires current analysis of a changed revision. Edits, hints, reset, sample/scenario/mode changes, reanalysis and newer copies prevent obsolete clipboard status or fallback selection. Already-started clipboard writes cannot be recalled. Baseline/revision/example separation, hint ownership and lexical scoring are unchanged.

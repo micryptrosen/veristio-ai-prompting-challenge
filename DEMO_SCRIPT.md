@@ -1,5 +1,12 @@
 # Demo Script - AI Prompting Challenge
 
+## Current Public-safe Snapshot - 2026-10-04
+
+Load a practice scenario, distinguish supplied hints from learner observations, enter and analyze a revision, reveal the separate example, copy current revision and reset. Explain lexical signal limits.
+This is a current walkthrough, not a claim that the existing public video was re-recorded.
+Earlier dated local-preparation/not-yet-pushed statements below describe historical checkpoints, not the current snapshot or today's publication result. Owner acceptance is not independent customer validation.
+Static local-only operation and MIT license preserved. Existing demo URLs and historical Skill Pack documentation are unchanged; physical-phone review remains deferred.
+
 ## Post-Pages Accepted Product Updates - 2026-10-04
 
 Load a scenario, write a changed revision, Analyze and Copy. Edit revision or hints and try Copy: reanalyze first. Reset/change sample and keep examples separate from learner work.
