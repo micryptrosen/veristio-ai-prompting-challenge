@@ -1,5 +1,13 @@
 # Demo Script - AI Prompting Challenge
 
+## Accepted Maintenance Prepared Locally - 2026-10-04
+
+Load a sample without touching hint boxes, enter a partial revision and analyze. Inspect neutral selection wording, clear/toggle hints and reanalyze; reveal the separate example, copy your revision and reset.
+
+This accepted product-home repair is prepared in this local public-safe mirror, not yet pushed. Older dated preparation and publication notes remain historical. Static local-only operation and MIT license are preserved. Owner acceptance is not customer or production validation.
+Existing public demo predates this repair; this update does not claim a new recording or playback check. Devpost submission remains abandoned/held/not performed.
+
+
 ## Product Value Walkthrough - 2026-10-03
 
 Under three minutes: select both scenarios in a difficulty, load a baseline, write and analyze your own revision, reveal the named separate example, copy your revision and reset. Show another difficulty; explain lexical checklist limits.

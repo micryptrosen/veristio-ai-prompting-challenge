@@ -1,5 +1,13 @@
 # AI Prompting Challenge
 
+## Accepted Maintenance Prepared Locally - 2026-10-04
+
+Sample-loaded gap hints are explicitly suggestions. Feedback reports current selections, not gaps discovered by the learner or proof of understanding. Six scenarios, lexical counts and baseline/revision/separate-example behavior are unchanged.
+
+This accepted product-home repair is prepared in this local public-safe mirror, not yet pushed. Older dated preparation and publication notes remain historical. Static local-only operation and MIT license are preserved. Owner acceptance is not customer or production validation.
+Existing public demo predates this repair; this update does not claim a new recording or playback check. Devpost submission remains abandoned/held/not performed.
+
+
 ## Current Product Value - 2026-10-03
 
 Choose Beginner, Practical or Advanced, then one of two practice scenarios in that difficulty (six total). Load sample replaces the weak baseline and clears revision; changing the selector alone preserves your current work. A revealed stronger example names its scenario and stays separate from your revision. Checklist hits remain lexical signals, not semantic quality or guaranteed effectiveness.

@@ -160,11 +160,11 @@ function buildFeedback(signals) {
   }
 
   const missingLabels = missing.map((item) => item.label.toLowerCase()).join(", ");
-  const noticing = checkedGaps.length
-    ? ` You noticed ${checkedGaps.length} gap${checkedGaps.length === 1 ? "" : "s"} before revising.`
-    : " Try checking the gaps you notice before revising.";
+  const hintSelection = checkedGaps.length
+    ? ` ${checkedGaps.length} gap hint${checkedGaps.length === 1 ? " is" : "s are"} currently selected; these may include sample-provided hints. Selections do not establish discovery or understanding.`
+    : " No gap hints are currently selected. Hint selections are separate from revision wording analysis.";
 
-  return `No listed wording signal found for: ${missingLabels}. The idea may still be expressed in other words; review the meaning yourself.${noticing}`;
+  return `No listed wording signal found for: ${missingLabels}. The idea may still be expressed in other words; review the meaning yourself.${hintSelection}`;
 }
 
 function analyzePrompt() {
