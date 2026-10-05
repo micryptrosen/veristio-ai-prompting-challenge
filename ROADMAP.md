@@ -1,5 +1,13 @@
 # Roadmap
 
+## Saved Handoff Clarity - Current Public-Safe Update
+
+Practice brief downloads use neutral Baseline input and Revision input headings for typed and sample values. This does not infer authorship or input origin. All prompt text, lexical rows, caveat, current-only download and revision-only copy behavior remain unchanged.
+
+App: https://micryptrosen.github.io/veristio-ai-prompting-challenge/
+Use the live app or open index.html locally. Existing videos predate this update; earlier dated preparation/roadmap notes below are historical. Static local-only architecture; no new accounts, network dependencies or persistence.
+
+
 ## Practice brief - Current Public-Safe Update
 
 Download practice brief (.txt) saves the current baseline, changed revision and seven lexical comparison rows with a non-semantic caveat. Supply both baseline and changed revision and analyze first. Edits or Reset require new analysis. Copy improved prompt remains revision-only; examples and hints are not learner evidence.

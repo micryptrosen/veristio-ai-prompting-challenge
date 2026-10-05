@@ -225,7 +225,7 @@ function analyzePrompt() {
   if (hasRevision) analysisSnapshot = { inputs: inputSnapshot() };
   // Snapshot brief addition.
   if (baseline && hasRevision) {
-    analysisSnapshot.brief = ["AI Prompting Challenge practice brief", "", "User-supplied baseline:", baseline, "", "User-supplied revision:", revision, "", "Lexical baseline / revision comparison:", ...Array.from(comparisonOutput.children).map((li) => "- " + li.textContent), "", "Literal matches only; not semantic quality, proof of improvement or learning gain. Hints and examples are separate."].join("\n");
+    analysisSnapshot.brief = ["AI Prompting Challenge practice brief", "", "Baseline input:", baseline, "", "Revision input:", revision, "", "Lexical baseline / revision comparison:", ...Array.from(comparisonOutput.children).map((li) => "- " + li.textContent), "", "Literal matches only; not semantic quality, proof of improvement or learning gain. Hints and examples are separate."].join("\n");
     exportButton.disabled = false;
   }
   // End snapshot brief addition.
